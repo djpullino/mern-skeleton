@@ -14,6 +14,8 @@ const HomePage = () => {
         setUser(getUserInfo())
     }, [])
 
+    
+
 
     if (!user) return (
         <div><h4>Log in to view this page.</h4></div>)
