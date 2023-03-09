@@ -10,7 +10,7 @@ import Login from "./components/pages/loginPage";
 import TrainStops from "./components/pages/trainStops";
 import Signup from "./components/pages/registerPage";
 import PrivateUserProfile from "./components/pages/privateUserProfilePage";
-import Rating from "/Users/nand/Csc300/mern-skeleton/frontend/src/components/pages/rating.js";
+import Rating from "./components/pages/rating.js";
 import { createContext, useState, useEffect } from "react";
 import getUserInfo from "./utilities/decodeJwt";
 

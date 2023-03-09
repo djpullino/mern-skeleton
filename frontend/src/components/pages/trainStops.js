@@ -19,7 +19,7 @@ function TrainStops() {
       const result = await axios('https://api-v3.mbta.com/stops');
       const filteredStops = result.data.data.filter(stop => stop.attributes.wheelchair_boarding === 1);
       setStops(filteredStops);
-      setAccessibleStops(filteredStops) //filters all stops to be ones that are accessible
+      setAccessibleStops(filteredStops); //filters all stops to be ones that are accessible
     }
     fetchData();
 
