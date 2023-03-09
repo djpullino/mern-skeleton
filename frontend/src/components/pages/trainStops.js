@@ -8,7 +8,7 @@ function TrainStops() {
   const [selectedLine, setSelectedLine] = useState('');
   const [validLines, setValidLines] = useState([]);
 
-  var link = document.createElement('link');
+   var link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('type', 'text/css');
   link.setAttribute('href', "https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
@@ -19,11 +19,11 @@ function TrainStops() {
       const result = await axios('https://api-v3.mbta.com/stops');
       const filteredStops = result.data.data.filter(stop => stop.attributes.wheelchair_boarding === 1);
       setStops(filteredStops);
-      setAccessibleStops(filteredStops);
+      setAccessibleStops(filteredStops); //filters all stops to be ones that are accessible
     }
     fetchData();
 
-    async function fetchRoutes() {
+    async function fetchRoutes() { //filters all possible routes in the mbta which can be used
       const result = await axios('https://api-v3.mbta.com/routes');
       const validRoutes = result.data.data.map(route => route.attributes.long_name);
       setValidLines(validRoutes);
@@ -32,27 +32,37 @@ function TrainStops() {
   }, []);
 
   function submit(event) {
-    event.preventDefault();
-    const userStops = document.getElementById('stopsTest').value.toLowerCase();
-    const filteredStops = stops.filter(stop =>
+  event.preventDefault();
+  if (selectedLine === "") { // if user selects "All Lines"
+    const filteredStops = stops.filter(stop => stop.attributes.wheelchair_boarding === 1);
+    setAccessibleStops(filteredStops);
+  } else { // if user selects a specific line
+    const userStops = stops.filter(stop =>
       stop.attributes['wheelchair_boarding'] === 1 &&
       stop.relationships.route.data &&
-      stop.relationships.route.data?.attributes?.long_name?.toLowerCase() === userStops.toLowerCase()
+      stop.relationships.route.data?.attributes?.long_name === selectedLine
     );
-    setAccessibleStops(filteredStops);
-    setSelectedLine(userStops);
+    setAccessibleStops(userStops);
+  }
+}
+
+  function handleSelect(event) {
+    setSelectedLine(event.target.value); //function which takes the value from the dropdown
   }
 
   return (
-    <div>
-      <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>
-        <label htmlFor="stopsTest">Choose a Line to see its Accessible Stops:</label>
-        <input type="text" id="stopsTest" />
+    <div> 
+      <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>  
+        <label htmlFor="stopsTest">Choose a Line to see its Accessible Stops:</label> 
+        <select id="stopsTest" value={selectedLine} onChange={handleSelect}>
+          <option value="">All Lines</option>
+          {validLines.map(line => <option key={line} value={line}>{line}</option>)}
+        </select>
         <button onClick={submit} type="button">Enter</button>
       </div>
 
       <h1 style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>
-        {selectedLine ? `Accessible Stops for ${selectedLine} Line` : 'All Accessible Stops'}
+        {selectedLine ? `Accessible Stops for ${selectedLine}` : 'All Accessible Stops'}
       </h1>
 
       {accessibleStops.map(stop => (
@@ -66,4 +76,3 @@ function TrainStops() {
 }
 
 export default TrainStops;
-
