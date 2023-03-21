@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 const PRIMARY_COLOR = "#cc5c99";
+// background color
 const SECONDARY_COLOR = "#0c0c1f";
 const url = "http://localhost:8081/user/signup";
 const Register = () => {
@@ -33,6 +34,8 @@ const Register = () => {
     color: PRIMARY_COLOR,
     fontWeight: "bold",
     textDecoration: "none",
+    fontSize: "x-large",
+    
   };
   let backgroundStyling = { background: bgColor };
   let buttonStyling = {
