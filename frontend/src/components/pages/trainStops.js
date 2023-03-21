@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 
+
 function TrainStops() {
   const [stops, setStops] = useState([]);
   const [accessibleStops, setAccessibleStops] = useState([]);
@@ -51,14 +52,15 @@ function TrainStops() {
   }
 
   return (
-    <div> 
-      <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>  
+    <div style ={{backgroundColor: '#0c0c1f', color: 'white'}}> 
+      <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' , backgroundColor: '#0c0c1f' }}>  
         <label htmlFor="stopsTest">Choose a Line to see its Accessible Stops:</label> 
-        <select id="stopsTest" value={selectedLine} onChange={handleSelect}>
+        <br></br>
+        <select style={{backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center'}}id="stopsTest" value={selectedLine} onChange={handleSelect}>
           <option value="">All Lines</option>
           {validLines.map(line => <option key={line} value={line}>{line}</option>)}
         </select>
-        <button onClick={submit} type="button">Enter</button>
+        <button style={{backgroundColor: '#cc5c99', color:'white'}}onClick={submit} type="button">Enter</button>
       </div>
 
       <h1 style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>
