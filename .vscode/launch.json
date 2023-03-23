@@ -55,5 +55,13 @@
             "type": "node-terminal"
         },
 
+        {
+            "cwd": "${workspaceFolder}/backend/server",
+            "command": "npm start",
+            "name": "backend server: npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+
     ]
 }
