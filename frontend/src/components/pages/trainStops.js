@@ -32,19 +32,11 @@ function TrainStops() {
     fetchRoutes();
   }, []);
 
-  function submit(event) {
-  event.preventDefault();
-  if (selectedLine === "") { // if user selects "All Lines"
-    const filteredStops = stops.filter(stop => stop.attributes.wheelchair_boarding === 1);
-    setAccessibleStops(filteredStops);
-  } else { // if user selects a specific line
-    const userStops = stops.filter(stop =>
-      stop.attributes['wheelchair_boarding'] === 1 &&
-      stop.relationships.route.data &&
-      stop.relationships.route.data?.attributes?.long_name === selectedLine
-    );
-    setAccessibleStops(userStops);
-  }
+  async function submit(event) {
+    const result = await axios('https://api-v3.mbta.com/stops?filter[route]=Red');
+    const filteredStops = result.data.data.filter(stop => stop.attributes.wheelchair_boarding === 1);
+    setStops(filteredStops);
+    setAccessibleStops(filteredStops); //filters all stops to be ones that are accessible
 }
 
   function handleSelect(event) {
