@@ -20,20 +20,20 @@ function TrainStops() {
       const result = await axios('https://api-v3.mbta.com/stops');
       const filteredStops = result.data.data.filter(stop => stop.attributes.wheelchair_boarding === 1);
       setStops(filteredStops);
-      setAccessibleStops(filteredStops); //filters all stops to be ones that are accessible
+       //filters all stops to be ones that are accessible
     }
     fetchData();
 
     async function fetchRoutes() { //filters all possible routes in the mbta which can be used
       const result = await axios('https://api-v3.mbta.com/routes');
-      const validRoutes = result.data.data.map(route => route.attributes.long_name);
+      const validRoutes = result.data.data.map(route => route.attributes.short_name);
       setValidLines(validRoutes);
     }
     fetchRoutes();
   }, []);
 
   async function submit(event) {
-    const result = await axios('https://api-v3.mbta.com/stops?filter[route]=Red');
+    const result = await axios(`https://api-v3.mbta.com/stops?filter[route]=${selectedLine}`);
     const filteredStops = result.data.data.filter(stop => stop.attributes.wheelchair_boarding === 1);
     setStops(filteredStops);
     setAccessibleStops(filteredStops); //filters all stops to be ones that are accessible
@@ -61,8 +61,8 @@ function TrainStops() {
 
       {accessibleStops.map(stop => (
         <div key={stop.id} style={{ paddingLeft: "10px", textAlign: 'center', fontFamily: 'Montserrat' }}>
-          <h3>{stop.attributes.header}</h3>
-          <p>{stop.attributes.description}</p>
+          <h3>{stop.attributes.name}</h3>
+          <p>{stop.attributes.address}</p>
         </div>
       ))}
     </div>
