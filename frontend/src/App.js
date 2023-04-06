@@ -31,7 +31,7 @@ const App = () => {
       <UserContext.Provider value={user}>
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
-          <Route exact path="/home" element={<HomePage />} />
+          {/*<Route exact path="/home" element={<HomePage />} />*/} 
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/stops" element={<TrainStops />} />
           <Route exact path="/signup" element={<Signup />} />
