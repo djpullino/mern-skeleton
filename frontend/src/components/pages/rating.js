@@ -9,6 +9,9 @@ const RatingPage = () => {
   const selectTrain = new TrainStops;
 
   const [rating, setRating] = useState(null);
+  const [clicked, setClicked] = useState(false);
+  const [comment, setComment] = useState(null);
+
   const [hover, setHover] = useState(null);
 
   const [stops, setStops] = useState([]);
@@ -23,12 +26,25 @@ const RatingPage = () => {
   };
 
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log(`Submitted rating: ${rating}`);
-  //   // Add code to submit rating to backend or store in state
-  //   console.log("Rating for this stop is : " + rating);
-  // };
+  function CommentBox() {
+    const [comment, setComment] = 'useState'
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const url = "http://localhost:8096/rating";
+    const data = { userId: 123, stationName: "ABC Station", rating: 4, comment: "Great service!" }; // replace with the actual rating data
+
+    try {
+      const { data: res } = await axios.post(url, data);
+      console.log("Rating submitted successfully:", res);
+    } catch (error) {
+      console.error("Failed to submit rating:", error);
+    }
+  };
+
+
+
 
   useEffect(() => { //Will fetch the neccesary routes so our user can select one.
     async function fetchRoutes() { //filters all possible routes in the mbta which can be used
@@ -41,7 +57,9 @@ const RatingPage = () => {
 
 
   // Have to update the eventListener, if needed.
-  function submit(event) {
+  const submit = (e) => {
+    e.preventDefault();
+    alert(rating);
   }
 
   function handleSelect(event) {
@@ -50,53 +68,63 @@ const RatingPage = () => {
 
 
   return (
+    <form method='post' onSubmit={handleSubmit}>
+      <div className="star-rating" style={{ height: 900, background: "#ADD8E6", textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>
+        <h1>Please select a stop to rate</h1>
+        <br></br>
 
-    <div className="star-rating" style={{ background: "0c0c1f", textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>
-      <h1>Please select a stop to rate !!</h1>
-      <br></br>
+        <select style={{ backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center' }} id="stopsTest" value={selectedLine} onChange={handleSelect}>
+          <option value="">All Lines</option>
+          {validLines.map(line => <option key={line} value={line}>{line}</option>)}
+        </select>
+        <button style={{ backgroundColor: '#cc5c99', color: 'white' }} type="button">Enter</button>
 
-      <select style={{ backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center' }} id="stopsTest" value={selectedLine} onChange={handleSelect}>
-        <option value="">All Lines</option>
-        {validLines.map(line => <option key={line} value={line}>{line}</option>)}
-      </select>
-      <button style={{ backgroundColor: '#cc5c99', color: 'white' }} onClick={submit} type="button">Enter</button>
+        <h3>Selected Stop is : {selectedLine}</h3>
 
-      <h3>Selected Stop is : {selectedLine}</h3>
+        <br></br>
+        {[...Array(5)].map((star, index) => {
 
-      <br></br>
-      {[...Array(5)].map((star, index) => {
+          const ratingValue = index + 1;
+          //Will map out the array so it shows 5 stars.
+          return <label>
+            <input
+              type="radio"
+              name="rating"
+              value={ratingValue}
+              style={{ display: "none", cursor: "pointer" }}
+              onClick={() => setRating(ratingValue)}
+            />
+            <FaStar
+              clasName="star"
+              size={100}
+              style={{ cursor: "pointer" }}
+              color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
 
-        const ratingValue = index + 1;
-        //Will map out the array so it shows 5 stars.
-        return <label>
-          <input
-            type="radio"
-            name="rating"
-            value={ratingValue}
-            style={{ display: "none", cursor: "pointer" }}
-            onClick={() => setRating(ratingValue)} 
-          />
-          <FaStar
-            clasName="star"
-            size={100}
-            style={{ cursor: "pointer" }}
-            color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+            // onMouseEnter={() => setHover(ratingValue)}
+            // onMouseDown={() => setHover(null)}
 
-            onMouseEnter={() => setHover(ratingValue)}
-            onMouseDown={() => setHover(null)}
-          />
-        </label>
-      })}
-      <br></br>
-      <br></br>
-      <h3>
-        The rating you gave for {selectedLine} are :  {rating} stars.
-      </h3>
+            // onMouseEnter={() => !clicked && setHover(ratingValue)}
+            //  onMouseLeave={() => !clicked && setHover(null)}       
+            />
+          </label>
+        })}
+        <br></br>
+        <br></br>
+        <h3>
+          The rating you gave for {selectedLine} are :  {rating} stars.
+        </h3>
+        <br></br>
 
-
-
-
-    </div>
+        <textarea
+          value={comment}
+          onChange={(event) => setComment(event.target.value)}
+          placeholder="Enter your comment here"
+          style={{ backgroundColor: "#ADD8E6" }}
+        />
+        <br></br>
+        <button onClick={submit} type='submit'>Submit</button>
+      </div>
+    </form>
   );
 
 
