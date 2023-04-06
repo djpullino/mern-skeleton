@@ -69,7 +69,7 @@ const RatingPage = () => {
 
   return (
     <form method='post' onSubmit={handleSubmit}>
-      <div className="star-rating" style={{ height: 900, background: "#ADD8E6", textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' }}>
+      <div className="star-rating" style={{ height: 900, background: '#0c0c1f', textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', color: 'white' }}>
         <h1>Please select a stop to rate</h1>
         <br></br>
 
@@ -77,7 +77,7 @@ const RatingPage = () => {
           <option value="">All Lines</option>
           {validLines.map(line => <option key={line} value={line}>{line}</option>)}
         </select>
-        <button style={{ backgroundColor: '#cc5c99', color: 'white' }} type="button">Enter</button>
+        <button style={{ backgroundColor: '#cc5c99', color: 'white', color: 'white' }} type="button">Enter</button>
 
         <h3>Selected Stop is : {selectedLine}</h3>
 
@@ -102,9 +102,6 @@ const RatingPage = () => {
 
             // onMouseEnter={() => setHover(ratingValue)}
             // onMouseDown={() => setHover(null)}
-
-            // onMouseEnter={() => !clicked && setHover(ratingValue)}
-            //  onMouseLeave={() => !clicked && setHover(null)}       
             />
           </label>
         })}
@@ -119,7 +116,7 @@ const RatingPage = () => {
           value={comment}
           onChange={(event) => setComment(event.target.value)}
           placeholder="Enter your comment here"
-          style={{ backgroundColor: "#ADD8E6" }}
+          style={{ backgroundColor: "#0c0c1f", color:"white" }}
         />
         <br></br>
         <button onClick={submit} type='submit'>Submit</button>
