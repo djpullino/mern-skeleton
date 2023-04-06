@@ -19,6 +19,11 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8081/user/getAll
+Content-Type: application/json/Rating
+
+###
+
+GET http://localhost:8081/ratings/getAll
 Content-Type: application/json
 
 ###
