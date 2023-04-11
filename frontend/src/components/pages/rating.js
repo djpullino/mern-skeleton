@@ -69,7 +69,7 @@ const RatingPage = () => {
 
   return (
     <form method='post' onSubmit={handleSubmit}>
-      <div className="star-rating" style={{ height: 900, background: '#0c0c1f', textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', color: 'white' }}>
+      <div className="star-rating" style={{ height: 900, background: '#454545', textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', color: 'white' }}>
         <h1>Please select a stop to rate</h1>
         <br></br>
 

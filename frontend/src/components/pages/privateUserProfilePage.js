@@ -36,8 +36,8 @@ const PrivateUserProfile = () => {
   if (!user) return (<div><h4>Log in to view this page.</h4></div>)
   const { id, email, username, password, favroute} = user
   return (
-    <div class="container">
-      <div id="wrapper" style ={{backgroundColor: '#0c0c1f', color: 'white'}}>
+    <div class="container"  style ={{background: '#0c0c1f', color: 'white'}}>
+      <div id="wrapper">
       
         <h1>{user && user.username}</h1>
         
