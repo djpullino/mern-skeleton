@@ -9,7 +9,9 @@ const dbConnection = require('./config/db.config')
 const editUser = require('./routes/userEditUser')
 const deleteUser = require('./routes/userDeleteAll')
 const getAllRatingsRoute = require('./routes/ratingGetAllRatings')
-const createRatingsRoute = require('./routes/ratingCreateRating')
+const createRatingsRoutes = require('./routes/ratingCreateRating')
+
+const deleteRatings = require('./routes/ratingDeleteAllRatings')
 
 
 require('dotenv').config();
@@ -25,7 +27,11 @@ app.use('/user', getUserByIdRoute)
 app.use('/user', editUser)
 app.use('/user', deleteUser)
 app.use('/ratings', getAllRatingsRoute)
-app.use('/ratings', createRatingsRoute)
+app.use('/ratings', createRatingsRoutes)
+
+app.use('/ratings', deleteRatings)
+
+
 
 app.listen(SERVER_PORT, (req, res) => {
     console.log(`The backend service is running on port ${SERVER_PORT} and waiting for requests.`);

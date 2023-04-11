@@ -8,7 +8,7 @@ router.post('/add', async (req, res) => {
     const { username, stationName, ratings, comments, date } = req.body
 
     
-    //creates a new user
+    //creates a new rating
     const createRating = new createRatingModel({
         username: username,
         stationName: stationName,

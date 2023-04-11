@@ -1,47 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { FaStar } from "react-icons/fa";
-import TrainStops from './trainStops';
 import axios from 'axios';
 
 
 const RatingPage = () => {
-
-  const selectTrain = new TrainStops;
-
-  const [rating, setRating] = useState(null);
-  const [clicked, setClicked] = useState(false);
-  const [comment, setComment] = useState(null);
-
-  const [hover, setHover] = useState(null);
-
-  const [stops, setStops] = useState([]);
-  const [accessibleStops, setAccessibleStops] = useState([]);
+  const [ratings, setRatings] = useState(null);
+  const [comments, setComments] = useState(null);
   const [selectedLine, setSelectedLine] = useState('');
   const [validLines, setValidLines] = useState([]);
+  const [username, setUsername] = useState('');
+  const [stationName, setStationName] = useState(selectedLine);
 
 
 
-  const handleRating = (event) => {
-    setRating(event.target.value);
-  };
+  // const handleRating = (event) => {
+  //   setRating(event.target.value);
+  // };
 
 
-  function CommentBox() {
-    const [comment, setComment] = 'useState'
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const url = "http://localhost:8096/rating";
-    const data = { userId: 123, stationName: "ABC Station", rating: 4, comment: "Great service!" }; // replace with the actual rating data
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
     try {
-      const { data: res } = await axios.post(url, data);
-      console.log("Rating submitted successfully:", res);
+      console.log('handleSubmit: ', username, selectedLine, ratings, comments, Date);
+      const response = await axios.post('http://localhost:8081/ratings/add', {
+        username: username,
+        // stationName : stationName,
+        stationName: selectedLine,
+        ratings: ratings,
+        comments: comments,
+        Date: new Date(),
+      });
+      console.log('response from server: ', response.data);
+      alert("Rating added successfully!");
     } catch (error) {
-      console.error("Failed to submit rating:", error);
+      console.error(error);
+      alert("Failed to add Rating. Please try again later.");
     }
   };
+
 
 
 
@@ -56,15 +54,12 @@ const RatingPage = () => {
   }, []);
 
 
-  // Have to update the eventListener, if needed.
-  const submit = (e) => {
-    e.preventDefault();
-    alert(rating);
+  function handleSelect(event) {
+    const selectedLine = event.target.value; // get the selected line from the dropdown
+    setSelectedLine(selectedLine);
   }
 
-  function handleSelect(event) {
-    setSelectedLine(event.target.value); //function which takes the value from the dropdown
-  }
+
 
 
   return (
@@ -77,9 +72,13 @@ const RatingPage = () => {
           <option value="">All Lines</option>
           {validLines.map(line => <option key={line} value={line}>{line}</option>)}
         </select>
-        <button style={{ backgroundColor: '#cc5c99', color: 'white', color: 'white' }} type="button">Enter</button>
+        <button style={{ backgroundColor: '#cc5c99', color: 'white'}} onClick="submit" type="button">Enter</button>
 
         <h3>Selected Stop is : {selectedLine}</h3>
+
+
+        <input type="text" placeholder="Enter your name" value={username} onChange={(event) => setUsername(event.target.value)} />
+       
 
         <br></br>
         {[...Array(5)].map((star, index) => {
@@ -92,34 +91,33 @@ const RatingPage = () => {
               name="rating"
               value={ratingValue}
               style={{ display: "none", cursor: "pointer" }}
-              onClick={() => setRating(ratingValue)}
+              onClick={() => setRatings(ratingValue)}
             />
             <FaStar
               clasName="star"
               size={100}
               style={{ cursor: "pointer" }}
-              color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-
-            // onMouseEnter={() => setHover(ratingValue)}
-            // onMouseDown={() => setHover(null)}
+              color={ratingValue <= (ratings) ? "#ffc107" : "#e4e5e9"}
             />
           </label>
         })}
         <br></br>
         <br></br>
         <h3>
-          The rating you gave for {selectedLine} are :  {rating} stars.
+          The rating you gave for {selectedLine} are :  {ratings} stars.
         </h3>
         <br></br>
 
         <textarea
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
+          value={comments}
+          onChange={(event) => setComments(event.target.value)}
           placeholder="Enter your comment here"
-          style={{ backgroundColor: "#0c0c1f", color:"white" }}
+          style={{ backgroundColor: "#0c0c1f", color: "white" }}
         />
+
+        {/* <CommentBox /> */}
         <br></br>
-        <button onClick={submit} type='submit'>Submit</button>
+        <button variant="primary" type="submit">Submit</button>
       </div>
     </form>
   );
