@@ -47,7 +47,7 @@ function handleSelect(event) {
 
   return (
     <div id="wrapper" style ={{backgroundColor: '#0c0c1f', color: 'white'}}> 
-      <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' , backgroundColor: '#0c0c1f' }}>  
+      <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' , backgroundColor: '#0c0c1f', paddingBottom: '15px', paddingTop: '15px' }}>  
         <label htmlFor="stopsTest">Choose a Line to see its Accessible Stops:</label> 
         <br></br>
         <select style={{backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center'}}id="stopsTest" value={selectedLine} onChange={handleSelect}>
@@ -61,16 +61,16 @@ function handleSelect(event) {
           <option value="Green-D">Green Line D</option>
           <option value="Green-E">Green Line E</option>
         </select>
-        <button style={{backgroundColor: '#cc5c99', color:'white'}}onClick={submit} type="button">Enter</button>
+        <button style={{backgroundColor: '#cc5c99', color:'white'}}onClick={submit} type="button">Filter</button>
       </div>
 
       <h1 style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', paddingBottom: 10 }}>
   {selectedLine ? `Accessible Stops for ${selectedLine} Line`: 'All Accessible Stops'}
       </h1>
 
-      <h2 id="optionPrompt" style={{textAlign:'center', fontFamily: 'Montserrat', fontSize: '25px'}}>Pick an Option from the Menu and Press the Enter Button</h2>
+      
       {accessibleStops.map(stop => (
-        <div key={stop.id} style={{ paddingLeft: "10px", textAlign: 'center', fontFamily: 'Montserrat'}}>
+        <div key={stop.id} style={{ paddingTop: '20px',paddingLeft: "10px", textAlign: 'center', fontFamily: 'Montserrat'}}>
           <h3>{stop.attributes.name}</h3>
           <p>{stop.attributes.address}</p>
         </div>
