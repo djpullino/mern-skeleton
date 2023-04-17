@@ -3,6 +3,7 @@ import getUserInfo from '../utilities/decodeJwt';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import ReactNavbar from 'react-bootstrap/Navbar';
+import { NavItem } from "react-bootstrap";
 
 
 // Here, we display our Navbar
@@ -28,6 +29,7 @@ export default function Navbar() {
         <Nav.Link href="/privateUserProfile">Profile</Nav.Link>
         <Nav.Link href="/stops">Stops</Nav.Link>
         <Nav.Link href="/rating">Rating</Nav.Link>
+        <Nav.Link href="/userProfileImage">UserProfileImage</Nav.Link>
       </Nav>
     </Container>
   </ReactNavbar>
