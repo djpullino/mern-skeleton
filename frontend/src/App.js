@@ -13,6 +13,7 @@ import Rating from "./components/pages/rating.js";
 import UserProfileImage from "./components/pages/userProfileImage";
 import { createContext, useState, useEffect } from "react";
 import getUserInfo from "./utilities/decodeJwt";
+import Developers from './components/pages/developersPage';
 
 export const UserContext = createContext();
 
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/privateUserProfile" element={<PrivateUserProfile />} />
           <Route path="/rating" element={<Rating />} />
           <Route path="/userProfileImage" element={<UserProfileImage />} />
+          <Route path="/developers" element={< Developers/>} />
         </Routes>
       </UserContext.Provider>
     </>

@@ -10,7 +10,8 @@ const editUser = require('./routes/userEditUser')
 const deleteUser = require('./routes/userDeleteAll')
 const getAllRatingsRoute = require('./routes/ratingGetAllRatings')
 const createRatingsRoutes = require('./routes/ratingCreateRating')
-
+const createDeveloper = require('./routes/developerCreateDeveloper')
+const getAllDevelopers = require('./routes/developerGetAllDevelopers')
 const deleteRatings = require('./routes/ratingDeleteAllRatings')
 
 
@@ -28,8 +29,9 @@ app.use('/user', editUser)
 app.use('/user', deleteUser)
 app.use('/ratings', getAllRatingsRoute)
 app.use('/ratings', createRatingsRoutes)
-
 app.use('/ratings', deleteRatings)
+app.use('/developers', createDeveloper)
+app.use('/developers', getAllDevelopers)
 
 
 
