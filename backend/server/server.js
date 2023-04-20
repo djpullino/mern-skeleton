@@ -13,6 +13,7 @@ const createRatingsRoutes = require('./routes/ratingCreateRating')
 const createDeveloper = require('./routes/developerCreateDeveloper')
 const getAllDevelopers = require('./routes/developerGetAllDevelopers')
 const deleteRatings = require('./routes/ratingDeleteAllRatings')
+const editRatingsRoute =  require('./routes/ratingEditRatings')
 
 
 require('dotenv').config();
@@ -32,7 +33,7 @@ app.use('/ratings', createRatingsRoutes)
 app.use('/ratings', deleteRatings)
 app.use('/developers', createDeveloper)
 app.use('/developers', getAllDevelopers)
-
+app.use('/ratings', editRatingsRoute)
 
 
 app.listen(SERVER_PORT, (req, res) => {
