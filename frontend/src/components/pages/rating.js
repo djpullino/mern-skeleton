@@ -101,7 +101,7 @@ const RatingPage = () => {
               <option disabled value="" >{selectedLine} line</option>
               {accessibleStops.map(stops => <option key={stops.id} value={stops.attributes.name}>{stops.attributes.name}</option>)}
             </select>
-            <button style={{ backgroundColor: '#cc5c99', color: 'white'}} onClick={submit} type="button">Enter</button>
+            {/* <button style={{ backgroundColor: '#cc5c99', color: 'white'}} onClick={submit} type="button">Enter</button> */}
           </div>
         </div>
 
@@ -127,7 +127,7 @@ const RatingPage = () => {
             <FaStar
               clasName="star"
               size={100}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", paddingTop: '30px' }}
               color={ratingValue <= (ratings) ? "#ffc107" : "#e4e5e9"}
             />
           </label>
