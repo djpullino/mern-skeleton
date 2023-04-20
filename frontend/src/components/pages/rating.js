@@ -127,7 +127,7 @@ const RatingPage = () => {
             <FaStar
               clasName="star"
               size={100}
-              style={{ cursor: "pointer", paddingTop: '30px' }}
+              style={{ cursor: "pointer" }}
               color={ratingValue <= (ratings) ? "#ffc107" : "#e4e5e9"}
             />
           </label>
