@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaStar } from "react-icons/fa";
 import axios from 'axios';
+import getUserInfo from '../../utilities/decodeJwt';
+
 
 
 const RatingPage = () => {
@@ -15,8 +17,9 @@ const RatingPage = () => {
   // Variables for Ratings.
   const [ratings, setRatings] = useState(null);
   const [comments, setComments] = useState(null);
-  const [username, setUsername] = useState('');
   const [stationName, setStationName] = useState('');
+  const [username, setUsername] = useState('');
+
 
 
   // For Handling and submitting the form.
@@ -40,6 +43,7 @@ const RatingPage = () => {
   };
 
 
+  // UseEffect for creating DropDown Menus.
   useEffect(() => {
     async function fetchData() {
       const result = await axios('https://api-v3.mbta.com/stops?filter[route]=Red,Blue,Green-B,Green-C,Green-D,Green-E,Mattapan,Orange');
@@ -56,6 +60,12 @@ const RatingPage = () => {
     }
     fetchRoutes();
   }, []);
+  
+
+  // Another UseEffect for rendering all the ratings and showing it's history.
+  // function showHistory(stationName) {
+  //     if(stationName == selectedLine) {}
+  // }
 
   async function submit(event) {
     const result = await axios(`https://api-v3.mbta.com/stops?filter[route]=${selectedLine}`);
@@ -63,7 +73,6 @@ const RatingPage = () => {
     setStops(filteredStops);
     setAccessibleStops(filteredStops); //filters all stops to be ones that are accessible
     const wrapper = document.getElementById('optionPrompt');
-    wrapper.style.paddingBottom = 0;
   }
 
   function handleSelect(event) {
@@ -72,12 +81,13 @@ const RatingPage = () => {
 
   return (
     <form method='post' onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
-      <div className="star-rating" style={{ height: 900, backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', color: 'white' }}>
+      <div className="star-rating" style={{ height: 900, backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center', fontFamily: 'Montserrat', color: 'white' }}>
         <h3>Choose an accessible stop to rate it</h3>
         <br></br>
 
         <div name="DropDown" id="wrapper" style={{ backgroundColor: '#0c0c1f', color: 'white' }}>
-          <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', backgroundColor: '#0c0c1f', paddingBottom: '10px', paddingTop: '15px' }}>
+          
+          <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', backgroundColor: '#0c0c1f', paddingBottom: '10px'}}>
             <br></br>
             <select style={{ backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center' }} id="stopsTest" onChange={handleSelect}>
               <option value="" disabled>Choose a Boston Line</option>
@@ -112,6 +122,8 @@ const RatingPage = () => {
 
 
         <br></br>
+        <br></br>
+
         {[...Array(5)].map((star, index) => {
 
           const ratingValue = index + 1;
@@ -127,7 +139,7 @@ const RatingPage = () => {
             <FaStar
               clasName="star"
               size={100}
-              style={{ cursor: "pointer", paddingTop: '30px' }}
+              style={{ cursor: "pointer"}}
               color={ratingValue <= (ratings) ? "#ffc107" : "#e4e5e9"}
             />
           </label>
@@ -149,6 +161,7 @@ const RatingPage = () => {
         <br></br>
         <button variant="primary" type="submit">Submit</button>
       </div>
+      
     </form>
   );
 
