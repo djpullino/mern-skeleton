@@ -31,10 +31,7 @@ const EditUserPage = () =>{
   }
 
   // initialize form values and get userId on render
-  const [form, setValues] = useState({userId : "", username: "", email: "", password: "" })
-  useEffect(() => {
-    setValues({userId : getUserInfo().id})
-  }, [])
+  
 
   // handle form field changes
   const handleChange = ({ currentTarget: input }) => {

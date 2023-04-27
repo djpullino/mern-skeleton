@@ -39,7 +39,7 @@ const PrivateUserProfile = () => {
     <div class="container"  style ={{background: '#0c0c1f', color: 'white'}}>
       <div id="wrapper">
       
-        <h1>{user && user.username}</h1>
+        <h1 class="col-md-12 text-center">{user && user.username}</h1>
         
       </div>
         
@@ -73,6 +73,7 @@ const PrivateUserProfile = () => {
                     Your favorite route is currently set as:
                 </h3>
                     <span className='favroute'> {favroute}</span>
+                    
             </div>    
         </div>
             <Button className="me-2" onClick={handleShow}>
