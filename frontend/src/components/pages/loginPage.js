@@ -71,7 +71,7 @@ const Login = () => {
   };
 
   if(user) {
-    navigate('/home')
+      navigate('/userProfileImage')
     return
   }
 
