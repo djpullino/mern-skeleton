@@ -113,7 +113,7 @@ const RatingPage = () => {
               <option disabled value="" >{selectedLine} line</option>
               {accessibleStops.map(stops => <option key={stops.id} value={stops.attributes.name}>{stops.attributes.name}</option>)}
             </select>
-            {/* <button style={{ backgroundColor: '#cc5c99', color: 'white'}} onClick={submit} type="button">Enter</button> */}
+           
           </div>
         </div>
 
