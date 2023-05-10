@@ -2,16 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { Modal, Button } from 'react-bootstrap';
+import getUserInfo from "../../utilities/decodeJwt";
+
 
 const RatingList = () => {
     const [ratings, setRatings] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedRating, setSelectedRating] = useState({});
 
+    const [user, setUser] = useState({})
+
+
     const handleCloseModal = () => setShowModal(false);
+
     const handleOpenModal = (rating) => {
-        setSelectedRating(rating);
-        setShowModal(true);
+
+        if (user.username === rating.username) {
+            setSelectedRating(rating);
+            setShowModal(true);
+        } else {
+            alert("You cannot edit this rating as you are not the creator.");
+        }
     };
 
     const fetchRatings = async () => {
@@ -35,15 +46,19 @@ const RatingList = () => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => { 
         fetchRatings();
+        setUser(getUserInfo( ))  
     }, []);
 
+
     return (
-        <div className="whole" style={{backgroundColor: '#0c0c1f', color: 'white' }}>
-        <div className="container"  >
-            <h1>Rating List</h1>
-            <table className="table" style={{backgroundColor: '#0c0c1f', color: 'white' }}>
+        <div className="whole" style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' , backgroundColor: '#0c0c1f', paddingBottom: '15px', color:'white' }}>
+        <div className="container" >
+            <h1>History</h1>
+            <br></br>
+
+            <table className="table" style={{backgroundColor: '#0c0c1f', color: 'white'}}>
                 <thead>
                     <tr>
                         <th>Username</th>
@@ -67,14 +82,15 @@ const RatingList = () => {
                                 ))}
                             </td>
                             <td>{rating.Date}</td>
-                            <td>
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => handleOpenModal(rating)}
-                                >
-                                    Edit
-                                </button>
-                            </td>
+                            
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => handleOpenModal(rating)}
+                                disabled={!user || user.username !== rating.username}
+                                style={{ background: (!user || user.username !== rating.username) ? 'gray' : '' }}
+                            >
+                                Edit
+                            </button>
                         </tr>
                     ))}
                 </tbody>

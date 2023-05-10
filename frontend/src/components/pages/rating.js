@@ -102,7 +102,7 @@ const RatingPage = () => {
               <option value="Green-D">Green Line D</option>
               <option value="Green-E">Green Line E</option>
             </select>
-            
+
             <button style={{ backgroundColor: '#cc5c99', color: 'white' }} onClick={submit} type="button">Filter</button>
 
 
@@ -135,7 +135,7 @@ const RatingPage = () => {
             <FaStar
               clasName="star"
               size={100}
-              style={{ cursor: "pointer", paddingTop: '30px' }}
+              style={{ cursor: "pointer"}}
               color={ratingValue <= (ratings) ? "#ffc107" : "#e4e5e9"}
             />
           </label>

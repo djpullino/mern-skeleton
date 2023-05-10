@@ -3,7 +3,7 @@ const router = express.Router();
 const deleteRatings = require('../models/userRatings')
 
 router.post('/delete', async (req, res) => {
-    const ratings = await deleteRatings.deleteOne();
+    const ratings = await deleteRatings.deleteMany();
     return res.json(ratings)
   })
 
