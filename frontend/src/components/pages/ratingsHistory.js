@@ -13,10 +13,13 @@ const History = () => {
 
     const [user, setUser] = useState({})
     const [searchTerm, setSearchTerm] = useState(""); //Imports the Search Bar
-    
+
+
+
     const handleCloseModal = () => setShowModal(false);
     const handleOpenModal = (rating) => {
 
+        // Closing the edit button if correct user is not logged in.
         if (user.username === rating.username) {
             setSelectedRating(rating);
             setShowModal(true);
@@ -48,7 +51,7 @@ const History = () => {
     };
 
     useEffect(() => {
-        fetchRatings(); 
+        fetchRatings();
         setUser(getUserInfo()) //Retrieves the user information.
     }, []);
 
@@ -71,45 +74,57 @@ const History = () => {
                     <thead>
                         <tr>
                             <th>Username</th>
-                            <th>stationName</th>
+                            <th>station Name</th>
                             <th>Comments</th>
                             <th>Ratings</th>
-
-                            <th></th>
+                            <th></th> 
+                            <th>Station Average</th>
                         </tr>
                     </thead>
                     <tbody style={{ backgroundColor: '#0c0c1f', color: 'white' }}>
-                        {ratings
-                            .filter((rating) =>
+                        { //Filters the stationName by value in search bar.
+                             ratings.filter((rating) =>
                                 rating.stationName.toLowerCase().includes(searchTerm.toLowerCase())
                             )
-                            .map((rating) => (
-                                <tr key={rating.id}>
-                                    <td>{rating.username}</td>
-                                    <td>{rating.stationName}</td>
-                                    <td>{rating.comments}</td>
+                                .map((rating) => {
+                                    // Calculates the average of all station rating and then gives us a decimal number.
+                                const stationRatings = ratings.filter((r) => r.stationName === rating.stationName);
+                                const avgRating =
+                                    stationRatings.reduce((total, r) => total + r.ratings, 0) / stationRatings.length;
 
-                                    <td style={{ color: "#ffc107" }}>
-                                        {[...Array(rating.ratings)].map((star, i) => (
-                                            <FaStar key={i} className="star" />
-                                        ))}
-                                    </td>
-                                    <td>{rating.Date}</td>
-
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => handleOpenModal(rating)}
-                                        disabled={!user || user.username !== rating.username}
-                                        style={{ background: (!user || user.username !== rating.username) ? 'gray' : '' }}
-                                    >
-                                        Edit
-                                    </button>
-                                </tr>
+                                return (
+                                    <tr key={rating.id}>
+                                        <td>{rating.username}</td>
+                                        <td>{rating.stationName}</td>
+                                        <td>{rating.comments}</td>
 
 
-                            ))}
+                                        <td style={{ color: "#ffc107" }}>
+                                            {[...Array(rating.ratings)].map((star, i) => (
+                                                <FaStar key={i} className="star" />
+                                            ))}
+                                        </td>
+                                        <td>{rating.Date}</td>
+                                        <td>{avgRating.toFixed(1)}</td>
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => handleOpenModal(rating)}
+                                            disabled={!user || user.username !== rating.username}
+                                            style={{ background: (!user || user.username !== rating.username) ? 'gray' : '' }}
+                                        >
+                                            Edit
+                                        </button>
+
+                                    </tr>
+
+                                );
+
+                            })}
                     </tbody>
                 </table>
+
+
+
                 <Modal show={showModal} onHide={handleCloseModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Edit Rating</Modal.Title>
@@ -121,7 +136,7 @@ const History = () => {
                                 type="text"
                                 className="form-control"
                                 value={selectedRating.username}
-                                disabled
+                                disabled //Disables the userName as the user shouldn't mess with the submitted username.
                             />
                         </div>
                         <div>
@@ -134,7 +149,7 @@ const History = () => {
                             />
                         </div>
 
-                        <div className="mt-2">
+                        <div>
                             <label>Comments:</label>
                             <input
                                 type="text"
@@ -149,7 +164,7 @@ const History = () => {
                             />
                         </div>
 
-                        <div className="mt-2">
+                        <div>
                             <label>Ratings:</label>
                             <div>
                                 {[...Array(5)].map((star, i) => (
