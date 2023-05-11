@@ -4,17 +4,17 @@ import { FaStar } from 'react-icons/fa';
 import { Modal, Button } from 'react-bootstrap';
 import getUserInfo from "../../utilities/decodeJwt";
 
+// This page will provide the implementations of a history page which will let the users check the submission of rating, comment etc..
 
-const RatingList = () => {
+const History = () => {
     const [ratings, setRatings] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedRating, setSelectedRating] = useState({});
 
     const [user, setUser] = useState({})
-
-
+    const [searchTerm, setSearchTerm] = useState(""); //Imports the Search Bar
+    
     const handleCloseModal = () => setShowModal(false);
-
     const handleOpenModal = (rating) => {
 
         if (user.username === rating.username) {
@@ -25,6 +25,7 @@ const RatingList = () => {
         }
     };
 
+    // Will fetch and call all the ratings from the Mongo_DB Rating collection.
     const fetchRatings = async () => {
         const response = await axios.get('http://localhost:8081/ratings/getAll');
         setRatings(response.data);
@@ -46,130 +47,144 @@ const RatingList = () => {
         }
     };
 
-    useEffect(() => { 
-        fetchRatings();
-        setUser(getUserInfo( ))  
+    useEffect(() => {
+        fetchRatings(); 
+        setUser(getUserInfo()) //Retrieves the user information.
     }, []);
 
 
     return (
-        <div className="whole" style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' , backgroundColor: '#0c0c1f', paddingBottom: '15px', color:'white' }}>
-        <div className="container" >
-            <h1>History</h1>
-            <br></br>
+        <div className="history_container" style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', backgroundColor: '#0c0c1f', paddingBottom: '15px', color: 'white', minHeight: '100vh' }}>
+            <div className="container" style={{ backgroundColor: '#0c0c1f', color: 'white' }}
+            >
+                <h1>History</h1>
+                <br></br>
 
-            <table className="table" style={{backgroundColor: '#0c0c1f', color: 'white'}}>
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>stationName</th>
-                        <th>Comments</th>
-                        <th>Ratings</th>
+                <input
+                    type="text"
+                    placeholder="Search by station name"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
 
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ratings.map((rating) => (
-                        <tr key={rating._id}>
-                            <td>{rating.username}</td>
-                            <td>{rating.stationName}</td>
-                            <td>{rating.comments}</td>
+                <table className="table" style={{ color: 'white' }}>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>stationName</th>
+                            <th>Comments</th>
+                            <th>Ratings</th>
 
-                            <td style={{color: "#ffc107"}}>
-                                {[...Array(rating.ratings)].map((star, i) => (
-                                    <FaStar key={i} className="star" />
-                                ))}
-                            </td>
-                            <td>{rating.Date}</td>
-                            
-                            <button
-                                className="btn btn-primary"
-                                onClick={() => handleOpenModal(rating)}
-                                disabled={!user || user.username !== rating.username}
-                                style={{ background: (!user || user.username !== rating.username) ? 'gray' : '' }}
-                            >
-                                Edit
-                            </button>
+                            <th></th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Rating</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div style={{ backgroundColor: '#0c0c1f', color: 'white' }}>
-                        <label>Username:</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={selectedRating.username}
-                            disabled
-                        />
-                    </div>
-                    <div>
-                        <label>stationName:</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={selectedRating.stationName}
-                            disabled
-                        />
-                    </div>
+                    </thead>
+                    <tbody style={{ backgroundColor: '#0c0c1f', color: 'white' }}>
+                        {ratings
+                            .filter((rating) =>
+                                rating.stationName.toLowerCase().includes(searchTerm.toLowerCase())
+                            )
+                            .map((rating) => (
+                                <tr key={rating.id}>
+                                    <td>{rating.username}</td>
+                                    <td>{rating.stationName}</td>
+                                    <td>{rating.comments}</td>
 
-                    <div className="mt-2">
-                        <label>Comments:</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={selectedRating.comments}
-                            onChange={(e) =>
-                                setSelectedRating({
-                                    ...selectedRating,
-                                    comments: e.target.value,
-                                })
-                            }
-                        />
-                    </div>
+                                    <td style={{ color: "#ffc107" }}>
+                                        {[...Array(rating.ratings)].map((star, i) => (
+                                            <FaStar key={i} className="star" />
+                                        ))}
+                                    </td>
+                                    <td>{rating.Date}</td>
 
-                    <div className="mt-2">
-                        <label>Ratings:</label>
-                        <div>
-                            {[...Array(5)].map((star, i) => (
-                                <FaStar
-                                    key={i}
-                                    className="star"
-                                    onClick={() =>
-                                        setSelectedRating({
-                                            ...selectedRating,
-                                            ratings: i + 1,
-                                        })
-                                    }
-                                    style={{
-                                        color:
-                                            i + 1 <= selectedRating.ratings ? 'yellow' : 'gray',
-                                    }}
-                                />
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={() => handleOpenModal(rating)}
+                                        disabled={!user || user.username !== rating.username}
+                                        style={{ background: (!user || user.username !== rating.username) ? 'gray' : '' }}
+                                    >
+                                        Edit
+                                    </button>
+                                </tr>
+
+
                             ))}
+                    </tbody>
+                </table>
+                <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Edit Rating</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div style={{ backgroundColor: '#0c0c1f', color: 'white' }}>
+                            <label>Username:</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={selectedRating.username}
+                                disabled
+                            />
+                        </div>
+                        <div>
+                            <label>stationName:</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={selectedRating.stationName}
+                                disabled
+                            />
                         </div>
 
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                    <Button variant="primary" type='submit' onClick={() => handleEditRatings(selectedRating)}>
-                        submit
-                    </Button>
+                        <div className="mt-2">
+                            <label>Comments:</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={selectedRating.comments}
+                                onChange={(e) =>
+                                    setSelectedRating({
+                                        ...selectedRating,
+                                        comments: e.target.value,
+                                    })
+                                }
+                            />
+                        </div>
 
-                </Modal.Footer>
-            </Modal>
-        </div>
+                        <div className="mt-2">
+                            <label>Ratings:</label>
+                            <div>
+                                {[...Array(5)].map((star, i) => (
+                                    <FaStar
+                                        key={i}
+                                        className="star"
+                                        onClick={() =>
+                                            setSelectedRating({
+                                                ...selectedRating,
+                                                ratings: i + 1,
+                                            })
+                                        }
+                                        style={{
+                                            color:
+                                                i + 1 <= selectedRating.ratings ? 'yellow' : 'gray',
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" type='submit' onClick={() => handleEditRatings(selectedRating)}>
+                            submit
+                        </Button>
+
+                    </Modal.Footer>
+                </Modal>
+            </div>
         </div>
     );
 };
 
-export default RatingList;
+export default History;

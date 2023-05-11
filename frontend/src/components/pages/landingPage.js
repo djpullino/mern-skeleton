@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 const Landingpage = () => {
     
     return (
-      <div id="wrapper" style ={{backgroundColor: '#0c0c1f', color: 'white', height: 900}}>
+      <div id="wrapper" style ={{backgroundColor: '#0c0c1f', color: 'white', height: 900, minHeight: '100vh'}}>
       <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' , backgroundColor: '#0c0c1f' }}>
         <div className="d-flex justify-content-center">
            

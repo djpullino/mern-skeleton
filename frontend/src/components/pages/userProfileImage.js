@@ -59,8 +59,9 @@ const S3Uploader = () => {
     };
   
     return (
-      <div>
-        <h3>Upload Image</h3>
+      <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat' , backgroundColor: '#0c0c1f', paddingBottom: '15px', paddingTop: '15px', minHeight: '100vh', color: 'white' }}>
+        <br></br>
+        <h3>Upload Image Style</h3>
         <input
           type="file"
           accept="image/*"

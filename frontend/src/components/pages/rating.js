@@ -60,16 +60,15 @@ const RatingPage = () => {
       setValidLines(validRoutes);
     }
     fetchRoutes();
-    setUser(getUserInfo( ))
+    setUser(getUserInfo()) //Retrieves the User's information and stores it in a local variable.
   }, []);
-  
 
+  // Sets up the function which will let the users submit the form.
   async function submit(event) {
-    if(!user.username) {
+    if (!user.username) {
       alert("No Logged in")
       return
     }
-  
     const result = await axios(`https://api-v3.mbta.com/stops?filter[route]=${selectedLine}`);
     const filteredStops = result.data.data.filter(stop => stop.attributes.wheelchair_boarding === 1);
     setStops(filteredStops);
@@ -77,19 +76,20 @@ const RatingPage = () => {
     const wrapper = document.getElementById('optionPrompt');
   }
 
+  // Selects the selected station
   function handleSelect(event) {
     setSelectedLine(event.target.value);
   }
 
   return (
     <form method='post' onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
-      <div className="star-rating" style={{ height: 900, backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center', fontFamily: 'Montserrat', color: 'white' }}>
+      <div className="star-rating" style={{ height: 900, backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center', fontFamily: 'Montserrat', color: 'white', minHeight: '100vh' }}>
         <h3>Choose an accessible stop to rate it</h3>
         <br></br>
 
         <div name="DropDown" id="wrapper" style={{ backgroundColor: '#0c0c1f', color: 'white' }}>
-          
-          <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', backgroundColor: '#0c0c1f', paddingBottom: '10px'}}>
+
+          <div style={{ textAlign: 'center', paddingTop: "10px", fontFamily: 'Montserrat', backgroundColor: '#0c0c1f', paddingBottom: '10px' }}>
             <br></br>
             <select style={{ backgroundColor: '#0c0c1f', color: 'white', textAlign: 'center' }} id="stopsTest" onChange={handleSelect}>
               <option value="" disabled>Choose a Boston Line</option>
@@ -113,7 +113,7 @@ const RatingPage = () => {
               <option disabled value="" >{selectedLine} line</option>
               {accessibleStops.map(stops => <option key={stops.id} value={stops.attributes.name}>{stops.attributes.name}</option>)}
             </select>
-           
+
           </div>
         </div>
 
@@ -135,7 +135,7 @@ const RatingPage = () => {
             <FaStar
               clasName="star"
               size={100}
-              style={{ cursor: "pointer"}}
+              style={{ cursor: "pointer" }}
               color={ratingValue <= (ratings) ? "#ffc107" : "#e4e5e9"}
             />
           </label>
@@ -157,7 +157,7 @@ const RatingPage = () => {
         <br></br>
         <button variant="primary" type="submit">Submit</button>
       </div>
-      
+
     </form>
   );
 
