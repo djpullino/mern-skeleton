@@ -17,8 +17,6 @@ const RatingPage = () => {
   // Variables for Ratings.
   const [ratings, setRatings] = useState(null);
   const [comments, setComments] = useState(null);
-  const [stationName, setStationName] = useState('');
-  const [username, setUsername] = useState('');
 
   const [user, setUser] = useState({})
 
@@ -120,7 +118,7 @@ const RatingPage = () => {
         <br></br>
         <br></br>
 
-        {[...Array(5)].map((star, index) => {
+        {[...Array(5)].map((star, index) => { //Creates an array of 5, will let us draw 5 stars, used for ratings.
 
           const ratingValue = index + 1;
           //Will map out the array so it shows 5 stars.
@@ -132,7 +130,7 @@ const RatingPage = () => {
               style={{ display: "none", cursor: "pointer" }}
               onClick={() => setRatings(ratingValue)}
             />
-            <FaStar
+            <FaStar //React component which will give us stars to rate.
               clasName="star"
               size={100}
               style={{ cursor: "pointer" }}
@@ -147,7 +145,7 @@ const RatingPage = () => {
         </h3>
         <br></br>
 
-        <textarea
+        <textarea // Will create a comment area.
           value={comments}
           onChange={(event) => setComments(event.target.value)}
           placeholder="Enter your comment here"

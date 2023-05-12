@@ -4,18 +4,17 @@ import { FaStar } from 'react-icons/fa';
 import { Modal, Button } from 'react-bootstrap';
 import getUserInfo from "../../utilities/decodeJwt";
 
-// This page will provide the implementations of a history page which will let the users check the submission of rating, comment etc..
-
 const History = () => {
+    // Rating Variables declared with Use State.
     const [ratings, setRatings] = useState([]);
-    const [showModal, setShowModal] = useState(false);
     const [selectedRating, setSelectedRating] = useState({});
 
+    // Necessary User Variables
     const [user, setUser] = useState({})
     const [searchTerm, setSearchTerm] = useState(""); //Imports the Search Bar
 
-
-
+    // Modal variables
+    const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => setShowModal(false);
     const handleOpenModal = (rating) => {
 
@@ -77,49 +76,49 @@ const History = () => {
                             <th>station Name</th>
                             <th>Comments</th>
                             <th>Ratings</th>
-                            <th></th> 
+                            <th></th>
                             <th>Station Average</th>
                         </tr>
                     </thead>
                     <tbody style={{ backgroundColor: '#0c0c1f', color: 'white' }}>
                         { //Filters the stationName by value in search bar.
-                             ratings.filter((rating) =>
+                            ratings.filter((rating) =>
                                 rating.stationName.toLowerCase().includes(searchTerm.toLowerCase())
                             )
                                 .map((rating) => {
                                     // Calculates the average of all station rating and then gives us a decimal number.
-                                const stationRatings = ratings.filter((r) => r.stationName === rating.stationName);
-                                const avgRating =
-                                    stationRatings.reduce((total, r) => total + r.ratings, 0) / stationRatings.length;
+                                    const stationRatings = ratings.filter((r) => r.stationName === rating.stationName);
+                                    const avgRating =
+                                        stationRatings.reduce((total, r) => total + r.ratings, 0) / stationRatings.length;
 
-                                return (
-                                    <tr key={rating.id}>
-                                        <td>{rating.username}</td>
-                                        <td>{rating.stationName}</td>
-                                        <td>{rating.comments}</td>
+                                    return (
+                                        <tr key={rating.id}>
+                                            <td>{rating.username}</td>
+                                            <td>{rating.stationName}</td>
+                                            <td>{rating.comments}</td>
 
 
-                                        <td style={{ color: "#ffc107" }}>
-                                            {[...Array(rating.ratings)].map((star, i) => (
-                                                <FaStar key={i} className="star" />
-                                            ))}
-                                        </td>
-                                        <td>{rating.Date}</td>
-                                        <td>{avgRating.toFixed(1)}</td>
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={() => handleOpenModal(rating)}
-                                            disabled={!user || user.username !== rating.username}
-                                            style={{ background: (!user || user.username !== rating.username) ? 'gray' : '' }}
-                                        >
-                                            Edit
-                                        </button>
+                                            <td style={{ color: "#ffc107" }}>
+                                                {[...Array(rating.ratings)].map((star, i) => (
+                                                    <FaStar key={i} className="star" />
+                                                ))}
+                                            </td>
+                                            <td>{rating.Date}</td>
+                                            <td>{avgRating.toFixed(1)}</td>
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={() => handleOpenModal(rating)}
+                                                disabled={!user || user.username !== rating.username}
+                                                style={{ background: (!user || user.username !== rating.username) ? 'gray' : '' }}
+                                            >
+                                                Edit
+                                            </button>
 
-                                    </tr>
+                                        </tr>
 
-                                );
+                                    );
 
-                            })}
+                                })}
                     </tbody>
                 </table>
 
